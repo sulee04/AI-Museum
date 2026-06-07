@@ -1,0 +1,71 @@
+/**
+ * Museum z-index stack (low → high):
+ *   background (0)   → particles / WebGL canvas
+ *   effects (5)      → fog, scanlines, glitch (non-interactive)
+ *   content (10)     → intro sections, invisible scroll track spacers
+ *   specimens (12)   → AI emergence / extinction floats (interactive)
+ *   chrome (20)      → header, HUD rail, progress
+ *   narrative (25)   → center scroll narrative (curator, major beats)
+ *   panel (45)       → bottom exhibit / pinned archive panel (portal)
+ *   drawer (50)      → right-side expanded detail view
+ *   floating (60)    → tooltips, HUD popovers (always on top)
+ */
+
+@layer utilities {
+  .layer-background {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .layer-effects {
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+  }
+
+  .layer-content {
+    position: relative;
+    z-index: 10;
+  }
+
+  .layer-specimens {
+    position: fixed;
+    inset: 0;
+    z-index: 12;
+    pointer-events: none;
+  }
+
+  .layer-chrome {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+
+  .layer-narrative {
+    position: fixed;
+    inset: 0;
+    z-index: 25;
+    pointer-events: none;
+  }
+
+  .layer-panel {
+    position: fixed;
+    z-index: 45;
+  }
+
+  .layer-drawer {
+    position: fixed;
+    z-index: 50;
+  }
+
+  .layer-floating {
+    z-index: 60;
+  }
+
+  .layer-chrome-raised {
+    z-index: 60;
+  }
+}

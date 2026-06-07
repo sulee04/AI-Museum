@@ -1,0 +1,63 @@
+:root {
+  /* Abyss palette — cold deep-sea undertone (not flat #000 / #fff) */
+  --color-surface: #060b14;
+  --color-abyss: #010308;
+  --color-abyss-pure: #000204;
+  --color-deep: #0b1526;
+  --color-midwater: #0f2442;
+  --color-biolum: #00d9c2;
+  --color-biolum-dim: #00d9c228;
+  --color-phosphor: #72f2dc;
+  --color-warning: #ff5a72;
+  --color-terminal: #32f068;
+  --color-terminal-dim: #1a7a38;
+  --color-terminal-muted: #3d6b4a;
+  --color-terminal-sys: #2f4f38;
+  --color-muted: #5a6c82;
+  --color-text: #e8eef6;
+  --color-text-dim: #93a3b8;
+  --color-text-ghost: #6b7d92;
+
+  /* CRT / phosphor glow */
+  --glow-biolum: 0 0 24px rgba(0, 217, 194, 0.14), 0 0 2px rgba(114, 242, 220, 0.35);
+  --glow-terminal: 0 0 14px rgba(50, 240, 104, 0.18), 0 0 1px rgba(50, 240, 104, 0.55);
+  --glow-terminal-dim: 0 0 8px rgba(50, 240, 104, 0.08);
+  --glow-specimen: 0 0 12px rgba(200, 220, 235, 0.12);
+  --glow-hero: 0 0 56px rgba(1, 3, 8, 0.92), 0 2px 28px rgba(1, 3, 8, 0.88), 0 0 1px rgba(232, 238, 246, 0.4);
+  --glow-curator: 0 1px 2px rgba(1, 3, 8, 0.95), 0 4px 20px rgba(1, 3, 8, 0.72);
+
+  /* Typography — unified sans */
+  --font-display: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+
+  /* Fluid type scale — editorial rhythm */
+  --text-xs: clamp(0.64rem, 0.6rem + 0.18vw, 0.74rem);
+  --text-sm: clamp(0.78rem, 0.74rem + 0.22vw, 0.86rem);
+  --text-base: clamp(0.94rem, 0.88rem + 0.28vw, 1.04rem);
+  --text-lg: clamp(1.12rem, 1rem + 0.55vw, 1.32rem);
+  --text-xl: clamp(1.42rem, 1.15rem + 1.1vw, 1.95rem);
+  --text-2xl: clamp(1.92rem, 1.45rem + 1.85vw, 2.85rem);
+  --text-3xl: clamp(2.65rem, 1.95rem + 2.75vw, 4.25rem);
+  --text-hero: clamp(3.35rem, 2.35rem + 3.8vw, 6.75rem);
+
+  /* Spacing */
+  --space-section: clamp(6rem, 10vh, 12rem);
+  --space-gutter: clamp(1.25rem, 4vw, 3rem);
+  /** Bottom-right AA/AD year HUD — keep panels clear of this zone */
+  --hud-year-reserve: 9rem;
+  /** Lift event preview panel above screen edge */
+  --event-panel-lift: clamp(5.5rem, 20vh, 12rem);
+  --max-content: 72rem;
+
+  /* Cinematic motion */
+  --ease-cinematic: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-circ: cubic-bezier(0.85, 0, 0.15, 1);
+  --duration-fast: 220ms;
+  --duration-normal: 480ms;
+  --duration-slow: 820ms;
+
+  /* Depth mapping */
+  --depth-max: 6000;
+}

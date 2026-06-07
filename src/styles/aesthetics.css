@@ -1,0 +1,135 @@
+/* Speculative polish — CSS-only utilities */
+
+.transition-cinematic {
+  transition-property: opacity, transform, color, border-color, background-color, filter;
+  transition-duration: var(--duration-normal);
+  transition-timing-function: var(--ease-cinematic);
+}
+
+.transition-cinematic-fast {
+  transition-property: opacity, transform, color, border-color;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-cinematic);
+}
+
+.ease-cinematic {
+  transition-timing-function: var(--ease-cinematic);
+}
+
+/* Terminal stream lines */
+.terminal-line-log {
+  color: var(--color-terminal-muted);
+  text-shadow: var(--glow-terminal-dim);
+}
+
+.terminal-line-cli {
+  color: var(--color-terminal);
+  text-shadow: var(--glow-terminal);
+}
+
+.terminal-line-json {
+  color: #5a9a6a;
+  text-shadow: var(--glow-terminal-dim);
+}
+
+.terminal-line-error {
+  color: #ff6b7a;
+  text-shadow: 0 0 10px rgba(255, 90, 114, 0.2);
+}
+
+.terminal-line-system {
+  color: var(--color-terminal-sys);
+  text-shadow: var(--glow-terminal-dim);
+}
+
+.terminal-accent-alert {
+  color: #ff6b7a;
+  text-shadow: 0 0 10px rgba(255, 90, 114, 0.22);
+}
+
+.terminal-accent-warn {
+  color: #f0d060;
+  text-shadow: 0 0 10px rgba(240, 208, 96, 0.15);
+}
+
+.terminal-accent-ok {
+  color: var(--color-terminal);
+  text-shadow: var(--glow-terminal-dim);
+}
+
+.terminal-header-label {
+  -webkit-font-smoothing: antialiased;
+  text-shadow: var(--glow-terminal-dim);
+}
+
+/* Chrome controls */
+.chrome-descend {
+  letter-spacing: 0.22em;
+  transition:
+    color var(--duration-fast) var(--ease-cinematic),
+    border-color var(--duration-fast) var(--ease-cinematic),
+    background-color var(--duration-fast) var(--ease-cinematic);
+}
+
+.chrome-autoplay-btn {
+  transition:
+    color var(--duration-fast) var(--ease-cinematic),
+    border-color var(--duration-fast) var(--ease-cinematic),
+    background-color var(--duration-fast) var(--ease-cinematic),
+    box-shadow var(--duration-fast) var(--ease-cinematic);
+}
+
+.chrome-header-fade {
+  transition: opacity var(--duration-normal) var(--ease-cinematic);
+}
+
+/* Tooltip */
+.tooltip-panel {
+  background: rgba(6, 10, 18, 0.94);
+  border-color: rgba(140, 170, 200, 0.12);
+  transition:
+    opacity var(--duration-fast) var(--ease-cinematic),
+    transform var(--duration-fast) var(--ease-cinematic);
+}
+
+.tooltip-specimen-name {
+  text-shadow: var(--glow-specimen);
+}
+
+.tooltip-kicker {
+  font-family: var(--font-body);
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  line-height: 1.35;
+  text-transform: uppercase;
+  color: var(--color-text-ghost);
+}
+
+.tooltip-body {
+  color: var(--color-text-dim);
+}
+
+.tooltip-highlight {
+  color: var(--color-phosphor);
+  font-weight: 500;
+  text-shadow: 0 0 12px rgba(114, 242, 220, 0.18);
+}
+
+.tooltip-chat-line {
+  font-family: var(--font-body);
+  font-size: 0.625rem;
+  font-weight: 400;
+  line-height: 1.72;
+  letter-spacing: -0.006em;
+}
+
+.tooltip-meta {
+  color: var(--color-text-ghost);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Progress rail */
+.progress-rail-fill {
+  transition: height 80ms var(--ease-cinematic);
+}

@@ -1,0 +1,153 @@
+@layer base {
+  :root {
+    /* Prologue — archival, pre-AI, muted paper-on-dark */
+    --color-prologue-bg: #0c0c0f;
+    --color-prologue-surface: #141418;
+    --color-prologue-border: #2e2e36;
+    --color-prologue-text: #d4d4dc;
+    --color-prologue-muted: #7a7a88;
+    --color-prologue-dim: #55555f;
+    --color-prologue-accent: #9a9588;
+    --color-prologue-warm: #b8a888;
+  }
+}
+
+@layer utilities {
+  /* ── Prologue exhibit theme ── */
+  .exhibit-theme-prologue .exhibit-content-panel {
+    border-left: 2px solid var(--color-prologue-border);
+    padding-left: 1.375rem;
+    padding-block: 0.25rem;
+    background: transparent;
+  }
+
+  .exhibit-theme-prologue .exhibit-content-footer {
+    border-color: var(--color-prologue-border);
+  }
+
+  .exhibit-content-panel--interactive {
+    cursor: pointer;
+  }
+
+  .exhibit-content-panel__trigger {
+    display: block;
+    width: 100%;
+    text-align: left;
+    transition: color var(--duration-fast) var(--ease-cinematic);
+  }
+
+  .exhibit-theme-prologue .exhibit-content-panel__trigger:hover,
+  .exhibit-theme-prologue .exhibit-content-panel--open .exhibit-content-panel__trigger {
+    color: var(--color-prologue-warm);
+  }
+
+  .exhibit-content-panel__archive-hint {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 1.25rem;
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-prologue-accent);
+    opacity: 0;
+    transition: opacity var(--duration-fast) var(--ease-cinematic);
+  }
+
+  .exhibit-content-panel__trigger:hover .exhibit-content-panel__archive-hint,
+  .exhibit-content-panel--open .exhibit-content-panel__archive-hint {
+    opacity: 1;
+  }
+
+  .exhibit-theme-prologue .exhibit-content-panel--open {
+    border-left-color: var(--color-prologue-warm);
+  }
+
+  .chronology-theme-prologue .text-label {
+    color: var(--color-prologue-muted);
+  }
+
+  /* ── Ecosystem exhibit theme — bioluminescent AI ── */
+  .exhibit-theme-ecosystem .exhibit-content-panel {
+    position: relative;
+    overflow: hidden;
+    border-radius: 3px;
+    border: 1px solid rgba(11, 21, 38, 0.95);
+    background: linear-gradient(
+      168deg,
+      rgba(11, 21, 38, 0.88) 0%,
+      rgba(6, 11, 20, 0.92) 55%,
+      rgba(1, 3, 8, 0.94) 100%
+    );
+    backdrop-filter: blur(16px) saturate(1.1);
+    padding: 1.375rem 1.5rem;
+    box-shadow:
+      0 -1px 0 rgba(114, 242, 220, 0.05) inset,
+      0 16px 40px rgba(0, 0, 0, 0.28);
+  }
+
+  .exhibit-theme-ecosystem .exhibit-content-panel::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(0, 217, 194, 0.35) 50%,
+      transparent
+    );
+    opacity: 0.7;
+  }
+
+  .exhibit-theme-ecosystem .exhibit-content-footer {
+    border-color: var(--color-deep);
+  }
+
+  .exhibit-ecosystem-title {
+    text-shadow: 0 0 32px rgba(0, 217, 194, 0.12);
+  }
+
+  .chronology-theme-ecosystem .text-label {
+    color: var(--color-biolum);
+  }
+
+  /* Title gate — dramatic handoff between prologue and ecosystem */
+  .museum-title-gate {
+    background: radial-gradient(
+      ellipse 80% 60% at 50% 50%,
+      rgba(0, 217, 194, 0.06) 0%,
+      transparent 70%
+    );
+  }
+
+  .museum-title-gate__title {
+    text-shadow: var(--glow-hero);
+  }
+
+  .museum-title-gate__subtitle {
+    color: var(--color-phosphor);
+  }
+
+  /* Zone-wide atmosphere on root */
+  .museum-root[data-zone='prologue'] .layer-background {
+    opacity: 0.88;
+  }
+
+  .museum-root[data-zone='ecosystem'] .layer-background {
+    opacity: 1;
+  }
+
+  /* Curator note — floating text, no chrome */
+  .curator-note-text {
+    text-shadow: 0 0 40px rgba(0, 217, 194, 0.08);
+  }
+
+  /* Bottom event panel — ecosystem exhibit detail */
+  .event-panel__inner {
+    box-shadow:
+      0 -8px 32px rgba(0, 0, 0, 0.45),
+      0 0 24px rgba(0, 217, 194, 0.06);
+  }
+}

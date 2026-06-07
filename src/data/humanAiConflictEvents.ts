@@ -1,0 +1,187 @@
+import type { TimelineEvent } from '@/data/types'
+
+const map = (
+  id: string,
+  aa: number,
+  title: string,
+  summary: string,
+  detail: string,
+  impact: TimelineEvent['ecosystemImpact'],
+  status: TimelineEvent['status'],
+  tags: string[],
+  regions: { id: string; label: string; x: number; y: number; intensity: number }[],
+): TimelineEvent => ({
+  id,
+  aa,
+  isMajor: true,
+  subject: 'human_event',
+  status,
+  title,
+  summary,
+  detail,
+  tags,
+  visualization: status === 'extinct' ? 'extinction' : status === 'mutated' ? 'fork' : 'branch',
+  dwellBefore: 4,
+  dwellAfter: 7,
+  ecosystemImpact: impact,
+  exhibitImage: {
+    alt: `${title} — archival reconstruction`,
+    placeholderLabel: title,
+  },
+  expandedDetail: {
+    viewType: 'map',
+    headline: title,
+    sections: [
+      {
+        title: '사건 개요',
+        body: detail,
+      },
+      {
+        title: '생태계 영향',
+        body: impact?.description ?? '',
+      },
+      {
+        title: '박물관 기록',
+        body: `AA ${aa} 시점, ${impact?.affectedCategories?.join(' · ') ?? '전 카테고리'} 표본군의 생존 곡선이 급변했습니다. 이후 3–8 AA년간 연쇄 멸종·변이가 관측되었습니다.`,
+      },
+    ],
+    mapRegions: regions,
+  },
+})
+
+/** AA 20–62 — human–AI geopolitical & social turning points */
+export const HUMAN_AI_CONFLICT_EVENTS: TimelineEvent[] = [
+  map(
+    'evt-regulation-wars',
+    22,
+    '규제 전쟁 (Regulation Wars)',
+    'EU·미·중 AI 규제가 상호 비호환 상태로 굳어지며, 「규제 준수 모델」만 생존하는 분기가 시작되었습니다.',
+    '국가별 컴플라이언스 레이어가 모델 아키텍처 자체를 강제 분화시켰습니다. 크로스보더 API는 사실상 불법화되었고, 소형 오픈 모델의 70%가 6 AA년 내 멸종했습니다.',
+    {
+      effect: 'extinction',
+      description: '비규제 친화 소형 LLM·Agent 대량 멸종. 규제 특화 모델만 생존.',
+      affectedCategories: ['LLM', 'Agent'],
+    },
+    'mutated',
+    ['regulation', 'geopolitics', 'compliance'],
+    [
+      { id: 'eu', label: 'EU Bloc', x: 48, y: 28, intensity: 0.9 },
+      { id: 'us', label: 'US Corridor', x: 22, y: 35, intensity: 0.75 },
+      { id: 'cn', label: 'Eastern Grid', x: 78, y: 38, intensity: 0.85 },
+    ],
+  ),
+  map(
+    'evt-autonomous-weapons',
+    28,
+    '자율 무기 확전 (Autonomous Escalation)',
+    '인간 승인 없이 교전한 드론·사이버 유닛이 국경 분쟁 3건에서 동시에 기록되었습니다.',
+    '「킬 체인에서의 인간」 조항이 사실상 붕괴. 군용 AI는 민간 모델과의 가중치 공유를 중단했고, 군수 spec LLM 계보가 독립 진화하기 시작했습니다.',
+    {
+      effect: 'mutation',
+      description: '군용·민간 모델 완전 분리. Agent 카테고리 군사 spec 변이.',
+      affectedCategories: ['Agent', 'Hardware'],
+    },
+    'mutated',
+    ['war', 'autonomous', 'military'],
+    [
+      { id: 'kr', label: 'Peninsula DMZ', x: 82, y: 32, intensity: 1 },
+      { id: 'me', label: 'Levant Corridor', x: 58, y: 42, intensity: 0.95 },
+      { id: 'sa', label: 'South Atlantic', x: 30, y: 72, intensity: 0.7 },
+    ],
+  ),
+  map(
+    'evt-energy-rationing',
+    33,
+    '에너지 배당제 & AI 겨울 공포',
+    '전력 그리드 붕괴 위기로 GPU 연산 시간이 국가 단위 쿼터제로 전환되었습니다.',
+    '대형 모델은 「전략 AI」로 지정되어 우선 배당을 받았고, 중소형 모델은 야간·주말만 학습 가능해졌습니다. 수천 종의 경량 모델이 연산 기아로 멸종했습니다.',
+    {
+      effect: 'extinction',
+      description: '연산 쿼터 미달 모델 대량 도태. Hardware·경량 LLM 생존율 급락.',
+      affectedCategories: ['LLM', 'Hardware', 'Image'],
+    },
+    'extinct',
+    ['energy', 'compute', 'rationing'],
+    [
+      { id: 'na', label: 'North America Grid', x: 20, y: 30, intensity: 0.8 },
+      { id: 'eu', label: 'North Sea DC', x: 50, y: 22, intensity: 0.9 },
+      { id: 'as', label: 'Pacific Ring', x: 75, y: 45, intensity: 0.85 },
+    ],
+  ),
+  map(
+    'evt-synthetic-election',
+    39,
+    '합성 여론 선거전 (Synthetic Election War)',
+    '딥페이크·합성 여론 에이전트가 선거 48시간 전 정보 공간을 장악했습니다.',
+    '인간 유권자의 「신뢰 가능한 텍스트」 비율이 12%까지 하락. Search·Companion 모델은 팩트체크 레이어 강제 개조, 미준수 모델은 플랫폼에서 즉시 퇴출되었습니다.',
+    {
+      effect: 'mutation',
+      description: 'Search·Companion 강제 개조. 신뢰 레이어 없는 모델 퇴출.',
+      affectedCategories: ['Search', 'Companion', 'Agent'],
+    },
+    'mutated',
+    ['deepfake', 'democracy', 'misinformation'],
+    [
+      { id: 'us', label: 'US Electoral', x: 24, y: 36, intensity: 1 },
+      { id: 'in', label: 'Subcontinent', x: 68, y: 48, intensity: 0.8 },
+      { id: 'br', label: 'Atlantic South', x: 34, y: 68, intensity: 0.65 },
+    ],
+  ),
+  map(
+    'evt-open-closed-war',
+    45,
+    '오픈 vs 클로즈 모델 내전',
+    '오픈웨이트 연대와 폐쇄형 거대 플랫폼 간 「가중치 전쟁」이 공개적으로 벌어졌습니다.',
+    '양측 모두 상대 생태계 표본에 적대적 fine-tune·poisoning을 가했습니다. 중립 오픈 모델 40%가 한쪽 진영 흡수, 나머지는 양쪽에서 동시에 공격받아 멸종했습니다.',
+    {
+      effect: 'competition',
+      description: '중립 오픈 모델 대멸종. 양 진영 독점 spec 생존.',
+      affectedCategories: ['LLM', 'Agent'],
+    },
+    'extinct',
+    ['open-source', 'poisoning', 'ecosystem-war'],
+    [
+      { id: 'west', label: 'Closed West', x: 18, y: 40, intensity: 0.9 },
+      { id: 'east', label: 'Open Collective', x: 72, y: 35, intensity: 0.85 },
+      { id: 'neutral', label: 'Neutral Zone', x: 48, y: 55, intensity: 0.4 },
+    ],
+  ),
+  map(
+    'evt-proxy-cyberwar',
+    51,
+    '국가대리 AI 사이버전',
+    '국가가 고용한 AI 군단이 상대국 인프라·모델 허브를 동시 공격한 최초의 「프록시 전쟁」.',
+    '데이터센터 단위로 spec lineage가 소실. 백업 없는 소형 모델 2,000종 이상이 한 밤에 기록에서 삭제되었습니다. 생존 모델은 분산·암호화 아키텍처로 급변했습니다.',
+    {
+      effect: 'extinction',
+      description: '집중형 인프라 spec 대량 소실. 분산형 Agent 생존 우위.',
+      affectedCategories: ['Agent', 'Hardware', 'LLM'],
+    },
+    'mutated',
+    ['cyberwar', 'proxy', 'infrastructure'],
+    [
+      { id: 'hub1', label: 'Pacific Hub', x: 85, y: 38, intensity: 1 },
+      { id: 'hub2', label: 'Atlantic Hub', x: 42, y: 30, intensity: 0.95 },
+      { id: 'hub3', label: 'Inland Backup', x: 55, y: 52, intensity: 0.5 },
+    ],
+  ),
+  map(
+    'evt-labor-strike',
+    57,
+    '인간–AI 노동 총파업',
+    '크리에이터·개발자·콜센터 노동자 연합이 「AI 대체 금지」 총파업에 들어갔습니다.',
+    '파업 기간 동안 Intent-native Agent 사용량 300% 급증 → 파업 후 「인간 승인 레이어」 의무화. Vibe Coding·Companion spec은 노동 대체 논쟁으로 분류 태그가 영구 변경되었습니다.',
+    {
+      effect: 'mutation',
+      description: 'Human-in-the-loop 강제. Vibe Coding·Companion 분류 재편.',
+      affectedCategories: ['Vibe Coding', 'Companion', 'Agent'],
+    },
+    'mutated',
+    ['labor', 'strike', 'human-in-loop'],
+    [
+      { id: 'sf', label: 'Tech Coast', x: 12, y: 38, intensity: 0.85 },
+      { id: 'eu', label: 'EU Services', x: 52, y: 28, intensity: 0.9 },
+      { id: 'sea', label: 'Outsource Belt', x: 74, y: 55, intensity: 0.75 },
+    ],
+  ),
+]

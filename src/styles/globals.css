@@ -1,0 +1,112 @@
+@import 'tailwindcss';
+@import './tokens.css';
+@import './typography.css';
+@import './animations.css';
+@import './aesthetics.css';
+@import './exhibit-themes.css';
+@import './archive-panels.css';
+@import './museum-shell.css';
+@import './layers.css';
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    background: var(--shell-stage-bg, var(--color-abyss));
+    color: var(--shell-text, var(--color-text));
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  html::-webkit-scrollbar {
+    display: none;
+  }
+
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: var(--font-body);
+    background: var(--shell-stage-bg, var(--color-abyss));
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  body::-webkit-scrollbar {
+    display: none;
+  }
+
+  ::selection {
+    background: var(--color-biolum-dim);
+    color: var(--color-text);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button {
+    font: inherit;
+    cursor: pointer;
+    border: none;
+    background: none;
+  }
+
+  html[data-mode='machine'] {
+    --color-text: #8fa898;
+    --color-text-dim: #4d5e54;
+    --color-biolum: #32f068;
+    --color-phosphor: #5ce88a;
+    --font-display: var(--font-mono);
+    --font-body: var(--font-mono);
+  }
+
+  html[data-mode='machine'] body {
+    background: var(--color-abyss-pure);
+  }
+}
+
+@layer utilities {
+  .section-pad {
+    padding-inline: var(--space-gutter);
+    padding-block: var(--space-section);
+  }
+
+  .content-max {
+    max-width: var(--max-content);
+    margin-inline: auto;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .gpu {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+}

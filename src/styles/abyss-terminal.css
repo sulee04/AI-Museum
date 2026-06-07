@@ -1,0 +1,77 @@
+/* Abyss CLI — isolated from parent opacity, blur; terminal phosphor glow */
+.abyss-terminal-panel {
+  background: var(--color-abyss-pure) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+  isolation: isolate;
+}
+
+.abyss-terminal-screen {
+  margin: 0;
+  padding: 0;
+  background: var(--color-abyss-pure);
+  color: var(--color-terminal-muted);
+  font-family:
+    'Courier New',
+    Courier,
+    'Liberation Mono',
+    'DejaVu Sans Mono',
+    'IBM Plex Mono',
+    ui-monospace,
+    monospace;
+  font-size: 11px;
+  line-height: 1.65;
+  letter-spacing: 0.02em;
+  font-weight: 400;
+  font-variant-ligatures: none;
+  font-feature-settings: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: geometricPrecision;
+  opacity: 1;
+  filter: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transform: translateZ(0);
+}
+
+.abyss-terminal-line {
+  margin: 0;
+  padding: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-shadow: var(--glow-terminal-dim);
+}
+
+.abyss-terminal-cursor {
+  display: inline;
+  color: var(--color-terminal);
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-shadow: var(--glow-terminal);
+  animation: abyss-terminal-cursor-blink 1s step-end infinite;
+}
+
+@keyframes abyss-terminal-cursor-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .abyss-terminal-cursor {
+    animation: none;
+    opacity: 1;
+  }
+}
