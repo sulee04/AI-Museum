@@ -24,7 +24,7 @@ export function ADDisplay({
   return (
     <span
       className={cn(
-        'inline-flex items-baseline gap-1.5 tabular-nums',
+        'inline-flex items-center justify-center gap-1.5 tabular-nums',
         sizeClass[size],
         variant === 'plain'
           ? 'font-mono text-[var(--year-display-text)]'
@@ -42,7 +42,7 @@ export function ADDisplay({
       >
         AD
       </span>
-      <RollingNumber value={Math.round(value)} />
+      <RollingNumber value={Math.round(value)} plain={variant === 'plain'} />
     </span>
   )
 }

@@ -77,7 +77,6 @@
 
   .museum-shell__quad--tl {
     grid-area: tl;
-    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -85,35 +84,108 @@
     padding: 1.125rem var(--shell-gutter) 1rem;
     background: var(--shell-stage-bg);
     border-right: 1px solid var(--shell-divider);
-    border-bottom: 1px solid var(--shell-divider);
-  }
-
-  .museum-shell__tl-center {
-    display: flex;
-    flex: 1;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-  }
-
-  .museum-shell__tl-theme {
-    position: absolute;
-    bottom: 1rem;
-    left: 50%;
-    transform: translateX(-50%);
   }
 
   .museum-shell__quad--tc {
     grid-area: tc;
+    position: relative;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem var(--shell-gutter);
+    align-items: stretch;
+    justify-content: stretch;
+    padding: 0;
     background: var(--shell-stage-bg);
     border-right: 1px solid var(--shell-divider);
-    border-bottom: 1px solid var(--shell-divider);
     text-align: center;
+    overflow: hidden;
+  }
+
+  /* Deep Sea–style center scroll lane */
+  .museum-center-lane {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    min-height: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .museum-center-lane__viewport {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .museum-center-lane__card {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    padding: 0.75rem var(--shell-gutter);
+    max-width: 38rem;
+    margin: 0 auto;
+    transform: translateY(calc(-50% + var(--lane-y, 0px)));
+    opacity: var(--lane-opacity, 1);
+    will-change: transform, opacity;
+  }
+
+  .museum-center-lane__card--clickable {
+    cursor: pointer;
+    transition: opacity var(--duration-fast) var(--ease-cinematic);
+  }
+
+  .museum-center-lane__card--clickable:hover .museum-text-lead,
+  .museum-center-lane__card--clickable:focus-visible .museum-text-lead {
+    color: var(--shell-accent);
+  }
+
+  .museum-center-lane__card--clickable:focus-visible {
+    outline: 1px solid color-mix(in srgb, var(--shell-accent) 55%, transparent);
+    outline-offset: 4px;
+  }
+
+  .museum-center-lane::before,
+  .museum-center-lane::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    height: 22%;
+    pointer-events: none;
+  }
+
+  .museum-center-lane::before {
+    top: 0;
+    background: linear-gradient(to bottom, var(--shell-stage-bg) 8%, transparent 100%);
+  }
+
+  .museum-center-lane::after {
+    bottom: 0;
+    background: linear-gradient(to top, var(--shell-stage-bg) 12%, transparent 100%);
+  }
+
+  .museum-center-lane__hint {
+    position: absolute;
+    bottom: 0.875rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    letter-spacing: 0.16em;
+    opacity: 0.55;
+    animation: museum-lane-hint 2.4s ease-in-out infinite;
+  }
+
+  @keyframes museum-lane-hint {
+    0%,
+    100% {
+      opacity: 0.35;
+      transform: translateX(-50%) translateY(0);
+    }
+    50% {
+      opacity: 0.7;
+      transform: translateX(-50%) translateY(3px);
+    }
   }
 
   .museum-shell__quad--tr {
@@ -124,7 +196,6 @@
     justify-content: center;
     padding: 1.125rem var(--shell-gutter) 1rem;
     background: var(--shell-stage-bg);
-    border-bottom: 1px solid var(--shell-divider);
   }
 
   .museum-shell__tr-autoplay {
@@ -144,16 +215,118 @@
     grid-area: bottom;
     position: relative;
     background: var(--shell-lane-bg);
-    border-top: 1px solid var(--shell-divider);
     transition:
       background-color 0.65s var(--ease-cinematic),
       transform 0.65s var(--ease-cinematic);
   }
 
+  .museum-shell__quad--bottom::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.32;
+    background-image:
+      linear-gradient(
+        color-mix(in srgb, var(--shell-text-meta) 8%, transparent) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--shell-text-meta) 8%, transparent) 1px,
+        transparent 1px
+      );
+    background-size: 28px 28px;
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 10%,
+      black 92%,
+      transparent 100%
+    );
+  }
+
+  .museum-shell__quad--bottom::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.22;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      color-mix(in srgb, var(--shell-text-meta) 6%, transparent) 3px,
+      color-mix(in srgb, var(--shell-text-meta) 6%, transparent) 4px
+    );
+    mix-blend-mode: soft-light;
+  }
+
+  /* ── Sector divider timeline (L → R neon progress) ── */
+  .museum-timeline-rail {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: calc(var(--shell-band-height) - 6px);
+    z-index: 38;
+    height: 12px;
+    padding: 4px 0;
+    cursor: pointer;
+    pointer-events: auto;
+    touch-action: none;
+  }
+
+  .museum-timeline-rail:focus-visible {
+    outline: 1px solid color-mix(in srgb, var(--timeline-neon) 55%, transparent);
+    outline-offset: 2px;
+  }
+
+  .museum-timeline-rail__track {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 2px;
+    transform: translateY(-50%);
+    background: var(--shell-divider);
+  }
+
+  .museum-timeline-rail__fill {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    height: 2px;
+    transform: translateY(-50%);
+    width: calc(var(--timeline-p, 0) * 100%);
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--timeline-neon) 28%, transparent),
+      var(--timeline-neon)
+    );
+    box-shadow: 0 0 8px color-mix(in srgb, var(--timeline-neon) 32%, transparent);
+  }
+
+  .museum-timeline-rail__head {
+    position: absolute;
+    left: calc(var(--timeline-p, 0) * 100%);
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--timeline-neon);
+    box-shadow: 0 0 10px color-mix(in srgb, var(--timeline-neon) 45%, transparent);
+    pointer-events: none;
+  }
+
   .museum-shell__center-narrative {
+    position: relative;
+    z-index: 2;
     width: 100%;
     max-width: 38rem;
-    transition: transform 0.55s var(--ease-cinematic);
+    transition: opacity 0.35s var(--ease-cinematic);
   }
 
   .museum-shell__bottom-detail {
@@ -269,25 +442,10 @@
 
   .museum-shell__particles-zone {
     position: absolute;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     z-index: 1;
-    width: min(72vw, 960px);
-    height: 100%;
     pointer-events: none;
     overflow: hidden;
-  }
-
-  /* Handoff drama — sector pulse + bottom lift */
-  .museum-shell[data-handoff-active='true'] .museum-shell__quad--bottom {
-    transform: scaleY(1.015);
-    transform-origin: bottom center;
-  }
-
-  .museum-shell[data-handoff-active='true'] .museum-shell__quad--tl,
-  .museum-shell[data-handoff-active='true'] .museum-shell__quad--tc,
-  .museum-shell[data-handoff-active='true'] .museum-shell__quad--tr {
-    filter: brightness(calc(1 + var(--handoff-p, 0) * 0.12));
   }
 
   .museum-handoff {
@@ -298,67 +456,57 @@
     overflow: hidden;
   }
 
-  .museum-handoff__flash {
+  .museum-handoff__wash,
+  .museum-handoff__flash,
+  .museum-handoff__burst {
+    transition:
+      opacity 0.65s var(--ease-cinematic),
+      transform 0.9s var(--ease-cinematic);
+  }
+
+  .museum-handoff__wash {
     position: absolute;
     inset: 0;
     background: radial-gradient(
-      ellipse 80% 60% at 50% calc(var(--shell-band-height) - 2rem),
-      var(--shell-accent),
-      transparent 70%
+      ellipse 130vmax 130vmax at var(--timeline-head-x, 50%) var(--shell-band-height),
+      color-mix(in srgb, var(--handoff-glow) 24%, var(--shell-stage-bg)) 0%,
+      color-mix(in srgb, var(--handoff-glow) 10%, var(--shell-lane-bg)) 34%,
+      transparent 64%
     );
-    mix-blend-mode: soft-light;
+    mix-blend-mode: normal;
   }
 
-  .museum-handoff__bloom {
+  .museum-handoff__flash {
     position: absolute;
-    left: 50%;
-    top: calc(var(--shell-band-height) - 2px);
-    width: 130vmax;
-    height: 130vmax;
+    left: var(--timeline-head-x, 50%);
+    top: var(--shell-band-height);
+    width: 100vmax;
+    height: 100vmax;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--handoff-glow) 62%, var(--prologue-stage-bg)) 0%,
+      color-mix(in srgb, var(--handoff-glow) 38%, var(--shell-stage-bg)) 16%,
+      color-mix(in srgb, var(--handoff-glow) 14%, transparent) 38%,
+      transparent 58%
+    );
+  }
+
+  .museum-handoff__burst {
+    position: absolute;
+    left: var(--timeline-head-x, 50%);
+    top: var(--shell-band-height);
+    width: 90vmax;
+    height: 90vmax;
     border-radius: 50%;
-    pointer-events: none;
     transform-origin: center center;
     background: radial-gradient(
       circle,
-      rgba(77, 232, 255, 0.62) 0%,
-      rgba(45, 190, 255, 0.34) 22%,
-      rgba(20, 80, 140, 0.14) 45%,
-      transparent 62%
+      color-mix(in srgb, var(--handoff-glow) 48%, var(--ecosystem-stage-bg)) 0%,
+      color-mix(in srgb, var(--handoff-glow) 22%, transparent) 28%,
+      transparent 54%
     );
-    filter: blur(2px);
-  }
-
-  .museum-handoff__sweep {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: calc(var(--shell-band-height) - 1px);
-    height: 3px;
-    transform-origin: left center;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      var(--shell-accent) 40%,
-      rgba(255, 255, 255, 0.9) 50%,
-      var(--shell-accent) 60%,
-      transparent
-    );
-    box-shadow: 0 0 24px var(--shell-accent);
-  }
-
-  .museum-handoff__label {
-    position: absolute;
-    left: 50%;
-    top: calc(var(--shell-band-height) * 0.5);
-    transform: translate(-50%, -50%);
-    font-family: var(--font-display);
-    font-size: clamp(0.75rem, 0.65rem + 0.4vw, 0.9375rem);
-    font-weight: 600;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--shell-text);
-    text-shadow: 0 0 32px var(--shell-accent);
-    white-space: nowrap;
+    box-shadow: 0 0 72px color-mix(in srgb, var(--handoff-glow) 28%, transparent);
   }
 
 
@@ -389,19 +537,46 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     text-align: center;
     gap: 0.35rem;
+    width: 100%;
   }
 
   .museum-year__value {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background: transparent;
     font-size: clamp(1.85rem, 1.5rem + 1.6vw, 2.75rem);
     font-weight: 600;
-    line-height: 1.05;
+    line-height: 1;
     text-shadow: var(--year-display-glow, none);
   }
 
   .museum-year--centered .museum-year__value {
     font-size: clamp(2rem, 1.6rem + 1.8vw, 3rem);
+  }
+
+  .museum-year__value .museum-year-counter {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35em;
+    background: transparent;
+  }
+
+  .museum-year__value .museum-year-counter,
+  .museum-year__value .museum-year-counter *,
+  .museum-year__value .museum-year-counter__prefix {
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .museum-year-counter__prefix {
+    line-height: 1;
+    transform: translateY(0.04em);
   }
 
   .museum-year__range {
@@ -412,59 +587,126 @@
     color: var(--shell-text-meta);
   }
 
-  /* Flat globe emoji glyph */
-  .museum-earth-emoji {
+  /* Flat world map — Twemoji asset */
+  .museum-flat-map {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: clamp(4.25rem, 11vw, 6rem);
-    height: clamp(4.25rem, 11vw, 6rem);
-    border-radius: 999px;
-    filter: saturate(0.92);
+    width: clamp(2.75rem, 7vw, 3.5rem);
+    height: clamp(2.75rem, 7vw, 3.5rem);
     transition: transform var(--duration-fast) var(--ease-cinematic);
   }
 
-  .museum-earth-emoji__svg {
+  .museum-flat-map__img {
     width: 100%;
     height: 100%;
-    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.18));
+    object-fit: contain;
+    filter: saturate(0.92);
+    user-select: none;
   }
 
-  .museum-earth-emoji:hover:not(:disabled) {
+  .museum-flat-map:hover:not(:disabled) {
     transform: scale(1.04);
   }
 
-  .museum-earth-emoji:disabled {
-    opacity: 0.72;
+  .museum-flat-map:disabled {
+    opacity: 0.82;
     cursor: not-allowed;
   }
 
-  /* Theme switcher */
-  .museum-theme-switch {
-    display: inline-flex;
-    gap: 0.125rem;
-    padding: 0.2rem;
-    border-radius: 999px;
-    background: var(--shell-lane-bg);
-    border: 1px solid var(--shell-divider);
+  /* AA 100+ access denied */
+  .museum-access-denied {
+    position: fixed;
+    inset: 0;
+    z-index: 45;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .museum-theme-switch__btn {
-    padding: 0.35rem 0.65rem;
-    border-radius: 999px;
-    font-size: 0.5625rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--shell-text-meta);
+  .museum-access-denied__backdrop {
+    position: absolute;
+    inset: 0;
+    background: color-mix(in srgb, #050810 88%, transparent);
+    opacity: var(--access-backdrop, 0);
+    transition: opacity 0.35s var(--ease-cinematic);
+  }
+
+  .museum-access-denied__panel {
+    position: relative;
+    z-index: 1;
+    width: min(22rem, calc(100vw - 2.5rem));
+    padding: 1.75rem 1.5rem 1.5rem;
+    border: 1px solid color-mix(in srgb, #e05252 45%, var(--shell-text-meta));
+    background: color-mix(in srgb, var(--shell-stage-bg) 92%, #120608);
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, #e05252 12%, transparent),
+      0 24px 64px color-mix(in srgb, #000 55%, transparent);
+    opacity: var(--access-panel, 0);
+    transform: translateY(calc((1 - var(--access-panel, 0)) * 12px));
     transition:
-      color var(--duration-fast) var(--ease-cinematic),
-      background-color var(--duration-fast) var(--ease-cinematic);
+      opacity 0.4s var(--ease-cinematic),
+      transform 0.4s var(--ease-cinematic);
+    text-align: center;
   }
 
-  .museum-theme-switch__btn--active {
+  .museum-access-denied__panel--inline {
+    opacity: 1;
+    transform: none;
+  }
+
+  .museum-access-denied__stripe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: repeating-linear-gradient(
+      -45deg,
+      #e05252,
+      #e05252 8px,
+      #1a1012 8px,
+      #1a1012 16px
+    );
+  }
+
+  .museum-access-denied__badge {
+    margin: 0 0 0.75rem;
+    font-size: 0.5625rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #e05252;
+  }
+
+  .museum-access-denied__icon {
+    font-size: 1.75rem;
+    line-height: 1;
+    margin-bottom: 0.75rem;
+    filter: grayscale(0.15);
+  }
+
+  .museum-access-denied__title {
+    margin: 0 0 0.5rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
     color: var(--shell-text);
-    background: color-mix(in srgb, var(--shell-accent) 18%, transparent);
+  }
+
+  .museum-access-denied__message {
+    margin: 0 0 0.75rem;
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: color-mix(in srgb, #e05252 70%, var(--shell-text));
+  }
+
+  .museum-access-denied__meta {
+    margin: 0;
+    font-size: 0.6875rem;
+    line-height: 1.55;
+    letter-spacing: 0.04em;
+    color: var(--shell-text-meta);
   }
 
   /* Autoplay — borderless */
@@ -528,11 +770,6 @@
   @media (max-width: 640px) {
     .museum-shell__grid {
       grid-template-columns: minmax(5.5rem, 1fr) minmax(0, 2fr) minmax(5.5rem, 1fr);
-    }
-
-    .museum-theme-switch__btn {
-      padding: 0.3rem 0.45rem;
-      font-size: 0.5rem;
     }
   }
 }

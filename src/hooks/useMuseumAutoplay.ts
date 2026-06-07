@@ -2,10 +2,9 @@ import { useEffect, useRef } from 'react'
 import { ScrollTrigger } from '@/animations/registerGSAP'
 import { useLenis } from '@/app/providers/SmoothScrollProvider'
 import { AA_EPOCH } from '@/constants/timeline'
-import { PROLOGUE_AD_MAX, PROLOGUE_AD_MIN } from '@/constants/prologue'
+import { AUTOPLAY_PROLOGUE_PROGRESS_PER_SECOND } from '@/constants/prologue'
 import {
   AUTOPLAY_AA_YEARS_PER_SECOND,
-  AUTOPLAY_AD_YEARS_PER_SECOND,
   driveAutoplayToY,
   endAutoplayDrive,
   getAutoplayZone,
@@ -18,9 +17,7 @@ import { capAutoplayYearsPerSecond } from '@/lib/yearWheelScroll'
 import { mapAAToProgress, mapProgressToAASmooth } from '@/lib/aaTimeline'
 import {
   getPrologueScrollTrigger,
-  mapADToPrologueProgress,
-  mapPrologueProgressToAD,
-  resolvePrologueScrollY,
+  resolvePrologueScrollYFromProgress,
 } from '@/lib/prologueTimeline'
 import { useNarrativeStore } from '@/stores/narrativeStore'
 
@@ -40,7 +37,7 @@ export function useMuseumAutoplay({ playing, speed, onStop }: UseMuseumAutoplayO
   const speedRef = useRef(speed)
   const onStopRef = useRef(onStop)
   const lenisRef = useRef(lenis)
-  const adCursorRef = useRef(PROLOGUE_AD_MIN)
+  const prologueProgressRef = useRef(0)
   const aaCursorRef = useRef(0)
 
   playingRef.current = playing
@@ -61,7 +58,7 @@ export function useMuseumAutoplay({ playing, speed, onStop }: UseMuseumAutoplayO
     const ecosystemSt = getMuseumTrackScrollTrigger()
 
     if (zone === 'prologue' && prologueSt) {
-      adCursorRef.current = mapPrologueProgressToAD(prologueSt.progress)
+      prologueProgressRef.current = prologueSt.progress
     } else if (ecosystemSt) {
       aaCursorRef.current = mapProgressToAASmooth(ecosystemSt.progress)
     }
@@ -82,26 +79,23 @@ export function useMuseumAutoplay({ playing, speed, onStop }: UseMuseumAutoplayO
       const lenis = lenisRef.current
 
       if (currentZone === 'prologue') {
-        if (adCursorRef.current >= PROLOGUE_AD_MAX - 0.01) {
+        if (prologueProgressRef.current >= 0.998) {
           const bridgeY = prologueNow?.end ?? lenis?.scroll ?? 0
           scrollToY(bridgeY + 2, lenis, true)
-          adCursorRef.current = PROLOGUE_AD_MAX
+          prologueProgressRef.current = 1
           useNarrativeStore.getState().syncPrologueAutoplay(1)
         } else {
-          const adRate = capAutoplayYearsPerSecond(AUTOPLAY_AD_YEARS_PER_SECOND, rate)
-          adCursorRef.current = Math.min(
-            PROLOGUE_AD_MAX,
-            adCursorRef.current + adRate * dt,
+          const progressRate = AUTOPLAY_PROLOGUE_PROGRESS_PER_SECOND * rate
+          prologueProgressRef.current = Math.min(
+            1,
+            prologueProgressRef.current + progressRate * dt,
           )
-          const progress = mapADToPrologueProgress(adCursorRef.current)
-          const y = resolvePrologueScrollY(adCursorRef.current)
+          const y = resolvePrologueScrollYFromProgress(prologueProgressRef.current)
           if (y !== null) driveAutoplayToY(y, lenis)
-          useNarrativeStore.getState().syncPrologueAutoplay(progress)
+          useNarrativeStore.getState().syncPrologueAutoplay(prologueProgressRef.current)
         }
 
-        const atBridge =
-          (prologueNow?.progress ?? 0) >= 0.998 &&
-          adCursorRef.current >= PROLOGUE_AD_MAX - 0.01
+        const atBridge = (prologueNow?.progress ?? 0) >= 0.998 || prologueProgressRef.current >= 0.998
 
         if (atBridge && ecosystemNow) {
           aaCursorRef.current = 0

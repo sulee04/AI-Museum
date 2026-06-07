@@ -9,7 +9,7 @@ export function LaneParticleScene() {
 
   return (
     <Canvas
-      camera={{ position: [0, -2.2, 5.5], fov: 50 }}
+      camera={{ position: [0, -1.4, 5.2], fov: 52 }}
       dpr={[1, reducedMotion ? 1 : 1.25]}
       gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
       className="h-full w-full bg-transparent"

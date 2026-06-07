@@ -1,5 +1,8 @@
 /** Dummy exhibit image URLs for prologue bottom panel */
 export const PROLOGUE_EXHIBIT_IMAGE_SRC: Record<string, string> = {
+  hero: 'https://picsum.photos/seed/museum-hero/960/600',
+  'gate-title': 'https://picsum.photos/seed/museum-gate/960/600',
+  'gate-aa': 'https://picsum.photos/seed/aa-zero/960/600',
   'evt-turing-machine': 'https://picsum.photos/seed/turing1936/960/600',
   'evt-eniac': 'https://picsum.photos/seed/eniac1945/960/600',
   'evt-von-neumann': 'https://picsum.photos/seed/vonneumann/960/600',

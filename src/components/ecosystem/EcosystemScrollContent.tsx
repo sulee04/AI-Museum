@@ -1,9 +1,10 @@
 import { useMemo } from 'react'
 import { getEcosystemScrollEvents } from '@/data/timelineData'
-import { EcosystemScrollBeat } from '@/components/ecosystem/EcosystemScrollBeat'
 import { ECOSYSTEM_SCROLL_VH } from '@/constants/ecosystemScroll'
 
-/** Sparse AA-anchored archive facts — left/right margins, no chapter blocks */
+const BEAT_VH = ECOSYSTEM_SCROLL_VH / 48
+
+/** Invisible AA scroll markers — center lane renders narrative */
 export function EcosystemScrollContent() {
   const events = useMemo(() => getEcosystemScrollEvents(), [])
 
@@ -12,11 +13,13 @@ export function EcosystemScrollContent() {
       className="pointer-events-none relative w-full"
       style={{ minHeight: `${ECOSYSTEM_SCROLL_VH}vh` }}
     >
-      {events.map((event, index) => (
-        <EcosystemScrollBeat
+      {events.map((event) => (
+        <div
           key={event.id}
-          event={event}
-          side={index % 2 === 0 ? 'left' : 'right'}
+          aria-hidden
+          data-ecosystem-event={event.id}
+          data-ecosystem-aa={event.aa}
+          style={{ minHeight: `${BEAT_VH}vh` }}
         />
       ))}
     </div>

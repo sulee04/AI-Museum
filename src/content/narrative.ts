@@ -96,10 +96,10 @@ export function mapProgressToDepth(progress: number): number {
 }
 
 export function mapProgressToGlitch(progress: number): number {
-  if (progress >= TERMINAL_ZONE_START) return 1
+  if (progress >= TERMINAL_ZONE_START) return 0
   if (progress >= MACHINE_HANDOFF_START) {
     const t = (progress - MACHINE_HANDOFF_START) / (TERMINAL_ZONE_START - MACHINE_HANDOFF_START)
-    return 0.28 + t * 0.72
+    return 0.28 + t * 0.08
   }
 
   const clamped = Math.max(0, Math.min(1, progress))

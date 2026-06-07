@@ -1,9 +1,8 @@
 import { AA_EPOCH, AUTOPLAY_AA_YEARS_PER_SECOND } from '@/constants/timeline'
-import { AUTOPLAY_AD_YEARS_PER_SECOND } from '@/constants/prologue'
+import { AUTOPLAY_PROLOGUE_PROGRESS_PER_SECOND } from '@/constants/prologue'
 import { mapAAToProgress, mapProgressToAASmooth } from '@/lib/aaTimeline'
 import {
   getPrologueScrollTrigger,
-  mapADToPrologueProgress,
   resolvePrologueScrollY,
 } from '@/lib/prologueTimeline'
 import { clamp } from '@/lib/utils'
@@ -12,7 +11,7 @@ import { ScrollTrigger } from '@/animations/registerGSAP'
 
 export const MUSEUM_TRACK_SCROLL_TRIGGER_ID = 'museum-track'
 
-export { AUTOPLAY_AA_YEARS_PER_SECOND, AUTOPLAY_AD_YEARS_PER_SECOND }
+export { AUTOPLAY_AA_YEARS_PER_SECOND, AUTOPLAY_PROLOGUE_PROGRESS_PER_SECOND }
 
 let autoplayDriving = false
 
@@ -133,9 +132,6 @@ export function getProgressPerSecond(progress: number): number {
   return Math.max(p1 - p0, 0)
 }
 
-export function getPrologueProgressPerSecond(ad: number): number {
-  const adNext = ad + AUTOPLAY_AD_YEARS_PER_SECOND
-  const p0 = mapADToPrologueProgress(ad)
-  const p1 = mapADToPrologueProgress(adNext)
-  return Math.max(p1 - p0, 0)
+export function getPrologueProgressPerSecond(_progress: number): number {
+  return AUTOPLAY_PROLOGUE_PROGRESS_PER_SECOND
 }

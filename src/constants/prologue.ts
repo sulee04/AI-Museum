@@ -3,21 +3,22 @@ export const PROLOGUE_AD_MIN = 1936
 export const PROLOGUE_AD_MAX = 2017
 export const PROLOGUE_AD_SPAN = PROLOGUE_AD_MAX - PROLOGUE_AD_MIN
 
-/** ~10vh per AD year — museum-paced prologue descent */
-export const VH_PER_AD_YEAR = 10
-export const PROLOGUE_SCROLL_VH = PROLOGUE_AD_SPAN * VH_PER_AD_YEAR
-
-/** Autoplay: 0.5 AD year per second at 1× (ecosystem AA uses AUTOPLAY_AA_YEARS_PER_SECOND) */
-export const AUTOPLAY_AD_YEARS_PER_SECOND = 0.5
-
-/** In-flow chapter opener height (Deep Sea–style vertical beats) */
-export const PROLOGUE_CHAPTER_INTRO_VH = 28
+/** Uniform vh per intro event beat */
+export const PROLOGUE_BEAT_VH = 12
 
 /** Total intro events across all chapters — keep in sync with introTimeline */
 export const PROLOGUE_EVENT_COUNT = 12
 
-export const PROLOGUE_EVENT_BEAT_VH =
-  (PROLOGUE_SCROLL_VH - 3 * PROLOGUE_CHAPTER_INTRO_VH) / PROLOGUE_EVENT_COUNT
+export const PROLOGUE_SCROLL_VH = PROLOGUE_EVENT_COUNT * PROLOGUE_BEAT_VH
+
+/** ~10vh scroll per wheel notch — same feel as ecosystem AA years */
+export const WHEEL_PROLOGUE_PROGRESS_PER_NOTCH = 10 / PROLOGUE_SCROLL_VH
+
+/** Full prologue at 1× autoplay — ~38s (rebased from former 3×) */
+export const AUTOPLAY_PROLOGUE_PROGRESS_PER_SECOND = 3 / 114
+
+/** Legacy alias — year wheel in ecosystem only */
+export const AUTOPLAY_AD_YEARS_PER_SECOND = 0.5
 
 export const PROLOGUE_EPOCH = {
   min: PROLOGUE_AD_MIN,

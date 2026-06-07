@@ -1,60 +1,37 @@
-import { useMemo } from 'react'
 import { useNarrativeStore } from '@/stores/narrativeStore'
 import { getMachineZoneLocalProgress } from '@/content/narrative'
-import {
-  getLineTypeProgress,
-  MACHINE_LOG_LINES,
-} from '@/content/machineLogs'
-import { TypingLogLine } from '@/components/terminal/TypingLogLine'
-import { cn } from '@/lib/utils'
+import { getTerminalZoneLocalProgress } from '@/constants/scroll'
+import { cn, clamp } from '@/lib/utils'
 
 interface MachineOutputPanelProps {
   embedded?: boolean
 }
 
-/** Fixed-height terminal log — all lines reserved; reveal tied to scroll only */
+/** Terminal floor — access denied message (scroll-driven fade-in) */
 export function MachineOutputPanel({ embedded = false }: MachineOutputPanelProps) {
   const scrollProgress = useNarrativeStore((s) => s.scrollProgress)
   const localProgress = getMachineZoneLocalProgress(scrollProgress)
-
-  const lines = useMemo(() => MACHINE_LOG_LINES, [])
+  const terminalT = getTerminalZoneLocalProgress(scrollProgress)
+  const reveal = clamp(Math.max(localProgress, terminalT) / 0.2, 0, 1)
 
   return (
     <div
       className={cn(
-        'h-full w-full bg-[var(--color-abyss-pure)]',
+        'flex h-full w-full items-center justify-center bg-[var(--color-abyss-pure)]',
         embedded ? 'relative' : 'pointer-events-none fixed inset-x-0 bottom-0 z-[60]',
       )}
       aria-live="polite"
-      aria-label="Machine output stream"
+      aria-label="Access restricted"
+      style={{ opacity: reveal }}
     >
-      <div
-        className="flex h-full flex-col border-t border-[var(--color-deep)] bg-[var(--color-abyss-pure)]"
-        style={{ fontFamily: "'Courier New', Courier, 'Liberation Mono', monospace" }}
-      >
-        <div className="shrink-0 border-b border-[var(--color-deep)] px-[var(--space-gutter)] py-2">
-          <p className="terminal-header-label text-[9px] tracking-[0.32em] text-[var(--color-terminal-sys)] uppercase font-['Courier_New',Courier,monospace]">
-            machine.output.stream — post_human_maintenance.log
-          </p>
+      <div className="museum-access-denied__panel museum-access-denied__panel--inline">
+        <div className="museum-access-denied__stripe" aria-hidden />
+        <p className="museum-access-denied__badge">RESTRICTED — AA 100+</p>
+        <div className="museum-access-denied__icon" aria-hidden>
+          ⛔
         </div>
-        <div className="min-h-0 flex-1 px-[var(--space-gutter)] py-4">
-          <div className="space-y-1.5">
-            {lines.map((line, index) => {
-              const nextAt = lines[index + 1]?.at ?? Math.min(1, line.at + 0.04)
-              const typeProgress = getLineTypeProgress(localProgress, line.at, nextAt)
-
-              return (
-                <TypingLogLine
-                  key={line.id}
-                  text={line.content}
-                  type={line.type}
-                  typeProgress={typeProgress}
-                  reserveSpace
-                />
-              )
-            })}
-          </div>
-        </div>
+        <h2 className="museum-access-denied__title">접근이 차단되었습니다</h2>
+        <p className="museum-access-denied__message">인간은 접근할 수 없습니다</p>
       </div>
     </div>
   )

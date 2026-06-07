@@ -11,7 +11,6 @@ import { MuseumAutoplayDock } from '@/components/shell/MuseumAutoplayDock'
 import { ThemeProvider } from '@/components/shell/ThemeProvider'
 import { MuseumLoading } from '@/components/layout/MuseumLoading'
 import { MachineModeStyles } from '@/components/layout/MachineModeStyles'
-import { ArchivePinnedPanels } from '@/components/narrative/ArchivePinnedPanels'
 import { PanelDetailDrawer } from '@/components/narrative/PanelDetailDrawer'
 import { IntroHeroSection } from '@/components/sections/IntroHeroSection'
 import { MuseumTitleGateSection } from '@/components/sections/MuseumTitleGateSection'
@@ -87,7 +86,6 @@ function MuseumExperience() {
         <Scanlines />
       </div>
 
-      <ArchivePinnedPanels />
       <PanelDetailDrawer />
 
       <MuseumShell

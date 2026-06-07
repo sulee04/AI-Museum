@@ -1,11 +1,15 @@
 import { useNarrativeStore } from '@/stores/narrativeStore'
+import { TERMINAL_ZONE_START } from '@/constants/timeline'
 
 export function Scanlines() {
   const reducedMotion = useNarrativeStore((s) => s.reducedMotion)
   const glitchIntensity = useNarrativeStore((s) => s.glitchIntensity)
   const museumZone = useNarrativeStore((s) => s.museumZone)
+  const scrollProgress = useNarrativeStore((s) => s.scrollProgress)
 
-  if (reducedMotion || museumZone !== 'ecosystem') return null
+  if (reducedMotion || museumZone !== 'ecosystem' || scrollProgress >= TERMINAL_ZONE_START) {
+    return null
+  }
 
   return (
     <div

@@ -32,7 +32,7 @@ export function MuseumYearDisplay() {
         <>
           <span className="museum-text-meta">Entering</span>
           <div className="museum-year__value">
-            <AADisplay value={handoffProgress * 3} size="lg" />
+            <AADisplay value={handoffProgress * 3} size="lg" variant="plain" />
           </div>
           <span className="museum-year__range">AA ecosystem</span>
         </>
@@ -50,7 +50,7 @@ export function MuseumYearDisplay() {
         <>
           <span className="museum-text-meta">After AI</span>
           <div className="museum-year__value">
-            <AADisplay value={aaYearSmooth} size="lg" />
+            <AADisplay value={aaYearSmooth} size="lg" variant="plain" />
           </div>
           <span className="museum-year__range">
             0 — {ECOSYSTEM_AA_MAX + MACHINE_AA_SPAN}

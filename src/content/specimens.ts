@@ -4,8 +4,8 @@ import { clamp, lerp } from '@/lib/utils'
 export type { SpecimenData, SpecimenIconType, SpecimenCategory } from '@/content/specimens.data'
 
 /** Bottom ecosystem lane band (percent within lane container) */
-export const PIN_Y_MIN = 22
-export const PIN_Y_MAX = 68
+export const PIN_Y_MIN = 8
+export const PIN_Y_MAX = 88
 
 export interface SpecimenLayout {
   /** Horizontal position 5–92% */
@@ -21,8 +21,8 @@ export interface SpecimenEntry extends SpecimenData {
 
 const RISE_YEARS = 1.2
 const SINK_YEARS = 1.8
-const MIN_X_DIST = 10
-const MIN_Y_DIST = 4
+const MIN_X_DIST = 18
+const MIN_Y_DIST = 9
 
 function seededRandom(seed: string, salt: number): number {
   let hash = salt
@@ -43,7 +43,7 @@ function assignLayout(
   occupied: Array<SpecimenLayout & { born: number; extinct: number }>,
 ): SpecimenLayout {
   for (let attempt = 0; attempt < 80; attempt++) {
-    const x = 5 + seededRandom(specimen.id, attempt) * 87
+    const x = 2 + seededRandom(specimen.id, attempt) * 94
     const pinY = PIN_Y_MIN + seededRandom(specimen.id, attempt + 50) * (PIN_Y_MAX - PIN_Y_MIN)
     const collision = occupied.some(
       (slot) =>
@@ -54,7 +54,7 @@ function assignLayout(
     if (!collision) return { x, pinY }
   }
   return {
-    x: 5 + seededRandom(specimen.id, 99) * 87,
+    x: 2 + seededRandom(specimen.id, 99) * 94,
     pinY: PIN_Y_MIN + seededRandom(specimen.id, 100) * (PIN_Y_MAX - PIN_Y_MIN),
   }
 }

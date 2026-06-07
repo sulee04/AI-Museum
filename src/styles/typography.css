@@ -171,3 +171,23 @@
   letter-spacing: 0.06em;
   opacity: 0.9;
 }
+
+/* Year slot — no HUD glow, matches shell theme */
+.museum-year-counter {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--year-display-text, var(--shell-text));
+  text-shadow: var(--year-display-glow, none);
+  background: transparent;
+}
+
+.museum-year-counter__prefix {
+  font-size: 0.72em;
+  font-weight: 600;
+  color: var(--year-display-prefix, var(--shell-text-meta));
+  letter-spacing: 0.08em;
+  line-height: 1;
+}

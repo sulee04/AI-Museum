@@ -67,9 +67,11 @@ function Digit({ digit, shouldRoll, className }: DigitProps) {
 interface RollingNumberProps {
   value: number
   className?: string
+  /** Static tabular digits — no odometer clip slots (museum year slot) */
+  plain?: boolean
 }
 
-export function RollingNumber({ value, className }: RollingNumberProps) {
+export function RollingNumber({ value, className, plain = false }: RollingNumberProps) {
   const reducedMotion = useNarrativeStore((s) => s.reducedMotion)
   const rounded = Math.round(value)
   const negative = rounded < 0
@@ -82,7 +84,7 @@ export function RollingNumber({ value, className }: RollingNumberProps) {
     prevDigitsRef.current = digits
   }, [digits.join(',')])
 
-  if (reducedMotion) {
+  if (plain || reducedMotion) {
     return (
       <span className={cn('tabular-nums leading-none', className)} aria-label={String(rounded)}>
         {negative && '−'}

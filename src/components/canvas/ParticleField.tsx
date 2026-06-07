@@ -16,7 +16,7 @@ interface ParticleFieldProps {
   laneMode?: boolean
 }
 
-const AMBIENT_COUNT_LANE = 320
+const AMBIENT_COUNT_LANE = 140
 
 function seededRandom(seed: number): number {
   const x = Math.sin(seed * 127.1) * 43758.5453
@@ -38,9 +38,9 @@ function buildAmbientField(positions: Float32Array, colors: Float32Array, laneMo
   for (let i = 0; i < count; i++) {
     const i3 = i * 3
     if (laneMode) {
-      positions[i3] = 1 + Math.random() * 9
-      positions[i3 + 1] = -4 - Math.random() * 7
-      positions[i3 + 2] = (Math.random() - 0.5) * 8
+      positions[i3] = (Math.random() - 0.5) * 22
+      positions[i3 + 1] = -2.5 - Math.random() * 9
+      positions[i3 + 2] = (Math.random() - 0.5) * 10
     } else {
       positions[i3] = (Math.random() - 0.5) * 20
       positions[i3 + 1] = (Math.random() - 0.5) * 20
@@ -175,9 +175,10 @@ export function ParticleField({ intensity = 1, laneMode = false }: ParticleField
       t,
       density,
       drift,
-      wobble: 0.022,
-      sink: 0.012,
+      wobble: laneMode ? 0.014 : 0.022,
+      sink: laneMode ? 0.008 : 0.012,
       specimenLayer: false,
+      wrapSpan: laneMode ? 14 : 20,
     })
 
     animateLayer(survivorRef.current, survivor.basePositions, MAX_SURVIVOR_PARTICLES, {
@@ -191,8 +192,10 @@ export function ParticleField({ intensity = 1, laneMode = false }: ParticleField
 
     const ambientMat = ambientRef.current?.material as THREE.PointsMaterial | undefined
     if (ambientMat) {
-      ambientMat.size = 0.028 + activity * 0.014
-      ambientMat.opacity = (0.42 + activity * 0.22) * intensity * ambientDim
+      const laneSize = laneMode ? 0.062 : 0.028
+      const laneOpacity = laneMode ? 0.38 : 0.42
+      ambientMat.size = laneSize + activity * (laneMode ? 0.018 : 0.014)
+      ambientMat.opacity = (laneOpacity + activity * 0.22) * intensity * ambientDim
     }
 
     const survivorMat = survivorRef.current?.material as THREE.PointsMaterial | undefined
@@ -213,11 +216,11 @@ export function ParticleField({ intensity = 1, laneMode = false }: ParticleField
           <bufferAttribute attach="attributes-color" args={[ambient.colors, 3]} />
         </bufferGeometry>
         <pointsMaterial
-          size={0.034}
+          size={laneMode ? 0.07 : 0.034}
           sizeAttenuation
           vertexColors
           transparent
-          opacity={0.5 * intensity}
+          opacity={(laneMode ? 0.44 : 0.5) * intensity}
           depthWrite={false}
           blending={THREE.AdditiveBlending}
         />
@@ -268,6 +271,7 @@ function animateLayer(
     wobble: number
     sink: number
     specimenLayer: boolean
+    wrapSpan?: number
   },
 ) {
   if (!points) return
@@ -289,7 +293,7 @@ function animateLayer(
       basePositions[i3 + 1]! -
         opts.t * opts.sink * opts.density +
         Math.cos(opts.t * 0.2 + i * 0.5) * opts.wobble * wobbleScale,
-      opts.specimenLayer ? 18 : 20,
+      opts.wrapSpan ?? (opts.specimenLayer ? 18 : 20),
     )
     pos[i3 + 2] =
       basePositions[i3 + 2]! +
